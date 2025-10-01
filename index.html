@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualisateur Couleurs Farrow & Ball</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #FFFFFF;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2c2c2c;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: rgba(44, 44, 44, 0.7);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .room-card {
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .room-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--room-bg-color, #FFFFFF);
+            opacity: 1.0;
+            z-index: 0;
+        }
+
+        .room-header, .colors-grid {
+            position: relative;
+            z-index: 1;
+        }
+
+        .room-header {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .room-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .room-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #4B5956;
+        }
+
+        .room-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2c2c2c;
+        }
+
+        .colors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .color-rect {
+            min-height: 300px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-card {
+            min-height: 300px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            background: white;
+        }
+
+        .image-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .image-card-content {
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .image-card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c2c2c;
+            margin-bottom: 0.5rem;
+        }
+
+        .image-card-description {
+            font-size: 0.9rem;
+            color: rgba(44, 44, 44, 0.7);
+            font-style: italic;
+        }
+
+        .color-rect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .color-rect:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .color-rect:hover::before {
+            opacity: 1;
+        }
+
+        .color-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            position: relative;
+        }
+
+        .color-location {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+            opacity: 0.9;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            position: relative;
+        }
+
+        .color-hex {
+            font-size: 1rem;
+            font-weight: 400;
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            z-index: 2;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 700px;
+            width: 90%;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: #2c2c2c;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-color-preview {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .modal-details {
+            color: #2c2c2c;
+        }
+
+        .modal-details h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-details p {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .modal-details p:last-child {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(75, 89, 86, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #4B5956;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        /* Modal pour images */
+        .modal-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .modal-image-details {
+            text-align: center;
+        }
+
+        .modal-image-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #2c2c2c;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-image-description {
+            font-size: 1.1rem;
+            color: rgba(44, 44, 44, 0.7);
+            font-style: italic;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .rooms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .colors-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .color-rect {
+                min-height: 250px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Text color adaptation based on background */
+        .light-text {
+            color: #2c2c2c !important;
+        }
+
+        .light-text .color-name,
+        .light-text .color-location,
+        .light-text .color-hex {
+            color: #2c2c2c !important;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .light-text .color-hex {
+            background: rgba(255, 255, 255, 0.4) !important;
+            border-color: rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .dark-text {
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-palette"></i> Visualisateur Couleurs Farrow & Ball</h1>
+            <p>Visualisation des couleurs par pièce - Projet de décoration</p>
+        </div>
+
+        <div class="rooms-grid" id="roomsContainer">
+            <!-- Les pièces seront générées dynamiquement -->
+        </div>
+    </div>
+
+    <!-- Modal pour les détails -->
+    <div class="modal" id="colorModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-color-preview" id="modalColorPreview"></div>
+            <div class="modal-details" id="modalDetails"></div>
+        </div>
+    </div>
+
+    <script>
+        // Données des couleurs parsées du CSV avec colonne Usage
+        const colorData = [
+            {piece: "Toutes pièces", partie: "Plafonds", couleur: "All White", hex: "#FBF8F4", usage: ""},
+            {piece: "Chambre 1", partie: "Murs", couleur: "Wimborne White", hex: "#F7F3E8", usage: ""},
+            {piece: "Chambre 1", partie: "Dressing", couleur: "Picture Gallery Red", hex: "#A15A4D", usage: ""},
+            {piece: "Salle de bain", partie: "Étagères", couleur: "Wimborne White", hex: "#F7F3E8", usage: ""},
+            {piece: "Chambre 2", partie: "Murs", couleur: "Skimming Stone", hex: "#DFD6CB", usage: ""},
+            {piece: "Chambre 2", partie: "Fond étagères", couleur: "Radicchio", hex: "#994A50", usage: ""},
+            {piece: "Chambre 2", partie: "placard", couleur: "Charleston Gray", hex: "#9F9389", usage: ""},
+            {piece: "Chambre 3", partie: "Murs", couleur: "Wimborne White", hex: "#F7F3E8", usage: ""},
+            {piece: "Chambre 3", partie: "Intérieur placard", couleur: "Lime White", hex: "#E8DEC9", usage: ""},
+            {piece: "WC", partie: "Murs", couleur: "Stony Ground", hex: "#CEC1AD", usage: ""},
+            {piece: "WC", partie: "placard", couleur: "Picture Gallery Red", hex: "#A15A4D", usage: ""},
+            {piece: "Cagibi", partie: "Murs", couleur: "Lime White", hex: "#E8DEC9", usage: ""},
+            {piece: "Entrée / Couloir", partie: "Murs", couleur: "Stony Ground", hex: "#CEC1AD", usage: "Pour tous les autres murs de l'entrée et du couloir."},
+            {piece: "Entrée / Couloir", partie: "Murs", couleur: "Grove Green", hex: "#4B5956", usage: "Il sera à appliquer sur le mur de la porte d'entrée ainsi que sur l'angle de l'escalier côté entrée et sur le mur adjacent de la porte d'entrée ."},
+            {piece: "Escalier", partie: "Murs", couleur: "Grove Green", hex: "#4B5956", usage: ""},
+            {piece: "Salon", partie: "Murs", couleur: "School House White", hex: "#E6DFD1", usage: "Pour tout le reste de la pièce : murs et sous pente, embrasement de fenêtres, et entre poutre."},
+            {piece: "Salon", partie: "bibliothèque / tablette muret", couleur: "Shaded White", hex: "#D9D2C1", usage: "Cette couleur sera à appliquer sur toute la bibliothèque télévision ainsi que sur toutes les tablettes des banquettes."},
+            {piece: "Salon", partie: "Mur bibliothèque", couleur: "Grove Green", hex: "#4B5956", usage: "Ce vert est à appliquer sur tou le grand mur des bibliothèques et bureau.ATTENTION elle sera aussi à appliquer sur les placards près des fenêtres ( la sous couche sera differente de celle des murs) nous avions vue que L'INCHYRA BLUE pouvait aussi convenir au projet. Lors de votre commande précisez bien la couleur sélectionnée."},
+            {piece: "Salon", partie: "Mur bibliothèque", couleur: "Shadow White", hex: "#DED8C6", usage: "Pour les 2 murs l'angle de la cuisine côté séjour, ainsi que pour la porte ."},
+            {piece: "Salon", partie: "bibliothèque", couleur: "Drop Cloth", hex: "#C9BEAB", usage: "Pour les 2 murs l'angle de la cuisine côté séjour, ainsi que pour la porte ."},
+            {piece: "Cuisine", partie: "Murs", couleur: "Skylight", hex: "#CCD0CD", usage: "Pour tous les murs et plafond de la pièce"},
+            {piece: "Cuisine", partie: "Cadre / Plan de travail", couleur: "Off-Black", hex: "#444546", usage: "pour l'embrasement de la fenêtre."}
+        ];
+
+        // Images pour certaines pièces
+        const roomImages = {
+            'Chambre 1': [
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/842979c9b1d5fdb9626c4bb055acdfad',
+                    title: 'Poutres Chambre 1',
+                    description: 'Poutre chambres'
+                }
+            ],
+            'Chambre 2': [
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/842979c9b1d5fdb9626c4bb055acdfad',
+                    title: 'Poutres Chambre 2',
+                    description: 'Poutre chambres'
+                }
+            ],
+            'Chambre 3': [
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/842979c9b1d5fdb9626c4bb055acdfad',
+                    title: 'Poutres Chambre 3',
+                    description: 'Poutre chambres'
+                }
+            ],
+            'WC': [
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/c4f4e980b42ea6f7d83bde8b7481422c',
+                    title: 'Papier peint WC',
+                    description: 'LittleGreene Richmond-green-stella'
+                },
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/9872aa8e4bf0e853bafa18f1900c8e66',
+                    title: 'Sol WC',
+                    description: 'Sol en tomettes'
+                },
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/9606211a39304e9ee27f4ddd2121a8a7',
+                    title: 'Vue WC',
+                    description: 'Vue WC'
+                }
+            ],
+            'Entrée / Couloir': [
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/9872aa8e4bf0e853bafa18f1900c8e66',
+                    title: 'Sol Entrée / Couloir',
+                    description: 'Sol en tomettes'
+                },
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/5f9ccb7fc2cf3274747ccb3cb0b5056a',
+                    title: 'Vue Entrée',
+                    description: 'Vue entrée et escalier'
+                }
+            ],
+            'Escalier': [
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/47c1179cfadf7bb6e1a13fd8c5ad83f2',
+                    title: 'Papier peint Escalier',
+                    description: 'IVY Blue 699 Farrow&Ball'
+                },
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/50ad66da61434ed1962c689607eb7101',
+                    title: 'Poutres Escalier',
+                    description: 'Poutres salon'
+                },
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/5f9ccb7fc2cf3274747ccb3cb0b5056a',
+                    title: 'Vue Escalier',
+                    description: 'Vue entrée et escalier'
+                }
+            ],
+            'Salon': [
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/47c1179cfadf7bb6e1a13fd8c5ad83f2',
+                    title: 'Papier peint Salon',
+                    description: 'IVY Blue 699 Farrow&Ball'
+                },
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/9872aa8e4bf0e853bafa18f1900c8e66',
+                    title: 'Sol Salon',
+                    description: 'Sol en tomettes'
+                },
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/50ad66da61434ed1962c689607eb7101',
+                    title: 'Poutres Salon',
+                    description: 'Poutres salon'
+                }
+            ],
+            'Cuisine': [
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/9872aa8e4bf0e853bafa18f1900c8e66',
+                    title: 'Sol Cuisine',
+                    description: 'Sol en tomettes'
+                },
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/98de23646d56e0cf1a6ee1975cc9a8e5',
+                    title: 'Vue globale Cuisine',
+                    description: 'Vue globale'
+                }
+            ]
+        };
+
+        // Fonction pour déterminer si le texte doit être clair ou foncé
+        function getTextClass(hexColor) {
+            // Convertir hex en RGB
+            const r = parseInt(hexColor.slice(1, 3), 16);
+            const g = parseInt(hexColor.slice(3, 5), 16);
+            const b = parseInt(hexColor.slice(5, 7), 16);
+            
+            // Calculer la luminosité
+            const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+            
+            return luminance > 0.5 ? 'light-text' : 'dark-text';
+        }
+
+        // Icônes pour chaque type de pièce
+        const roomIcons = {
+            'Toutes pièces': 'fas fa-home',
+            'Chambre 1': 'fas fa-bed',
+            'Chambre 2': 'fas fa-bed',
+            'Chambre 3': 'fas fa-bed',
+            'Salle de bain': 'fas fa-bath',
+            'WC': 'fas fa-toilet',
+            'Cagibi': 'fas fa-archive',
+            'Entrée / Couloir': 'fas fa-door-open',
+            'Escalier': 'fas fa-stairs',
+            'Salon': 'fas fa-couch',
+            'Cuisine': 'fas fa-utensils'
+        };
+
+        // Grouper les couleurs par pièce
+        function groupByRoom() {
+            const rooms = new Map();
+            
+            colorData.forEach(color => {
+                if (!color.hex || color.hex === '') return; // Ignorer les entrées sans couleur
+                
+                if (!rooms.has(color.piece)) {
+                    rooms.set(color.piece, []);
+                }
+                rooms.get(color.piece).push(color);
+            });
+            
+            return rooms;
+        }
+
+        // Obtenir la première couleur de chaque pièce pour le fond
+        function getRoomBackgroundColor(roomName) {
+            const roomColors = colorData.filter(color => color.piece === roomName && color.hex);
+            return roomColors.length > 0 ? roomColors[0].hex : '#FFFFFF';
+        }
+
+        // Créer l'HTML pour une pièce
+        function createRoomHTML(roomName, colors) {
+            const icon = roomIcons[roomName] || 'fas fa-door-open';
+            const backgroundColor = getRoomBackgroundColor(roomName);
+            
+            let colorsHTML = '';
+            colors.forEach(color => {
+                const textClass = getTextClass(color.hex);
+                colorsHTML += `
+                    <div class="color-rect ${textClass}" 
+                         style="background-color: ${color.hex}" 
+                         onclick="openColorModal('${color.couleur}', '${color.partie}', '${color.hex}', '${roomName}', '${color.usage || ''}')">
+                        <div class="color-name">${color.couleur}</div>
+                        <div class="color-location">${color.partie}</div>
+                        <div class="color-hex">${color.hex}</div>
+                    </div>
+                `;
+            });
+            
+            // Ajouter des cartes d'images si elles existent pour cette pièce
+            let imageHTML = '';
+            if (roomImages[roomName]) {
+                roomImages[roomName].forEach(imageData => {
+                    imageHTML += `
+                        <div class="image-card" onclick="openImageModal('${imageData.url}', '${imageData.title}', '${imageData.description}', '${roomName}')">
+                            <img src="${imageData.url}" alt="${imageData.title}" loading="lazy">
+                            <div class="image-card-content">
+                                <div class="image-card-title">${imageData.title}</div>
+                                <div class="image-card-description">${imageData.description}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            return `
+                <div class="room-card" style="--room-bg-color: ${backgroundColor}">
+                    <div class="room-header">
+                        <i class="${icon} room-icon"></i>
+                        <h2 class="room-title">${roomName}</h2>
+                    </div>
+                    <div class="colors-grid">
+                        ${colorsHTML}
+                        ${imageHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Ouvrir la modal pour les couleurs
+        function openColorModal(couleurName, partie, hex, piece, usage = '') {
+            const modal = document.getElementById('colorModal');
+            const modalPreview = document.getElementById('modalColorPreview');
+            const modalDetails = document.getElementById('modalDetails');
+            
+            const textClass = getTextClass(hex);
+            
+            modalPreview.style.backgroundColor = hex;
+            modalPreview.className = `modal-color-preview ${textClass}`;
+            modalPreview.innerHTML = `
+                <div class="color-name" style="font-size: 2rem; margin-bottom: 1rem;">${couleurName}</div>
+                <div class="color-hex" style="font-size: 1.2rem;">${hex}</div>
+            `;
+            
+            let usageHTML = '';
+            if (usage && usage.trim() !== '') {
+                usageHTML = `<p><strong>Instructions d'usage :</strong> ${usage}</p>`;
+            }
+            
+            modalDetails.innerHTML = `
+                <h3>Détails de la couleur</h3>
+                <p><strong>Couleur :</strong> ${couleurName}</p>
+                <p><strong>Pièce :</strong> ${piece}</p>
+                <p><strong>Application :</strong> ${partie}</p>
+                <p><strong>Code hexadécimal :</strong> ${hex}</p>
+                ${usageHTML}
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // Ouvrir la modal pour les images
+        function openImageModal(imageUrl, title, description, piece) {
+            const modal = document.getElementById('colorModal');
+            const modalPreview = document.getElementById('modalColorPreview');
+            const modalDetails = document.getElementById('modalDetails');
+            
+            modalPreview.style.backgroundColor = 'transparent';
+            modalPreview.className = 'modal-color-preview';
+            modalPreview.innerHTML = `
+                <img src="${imageUrl}" alt="${title}" class="modal-image">
+            `;
+            
+            modalDetails.innerHTML = `
+                <div class="modal-image-details">
+                    <h3 class="modal-image-title">${title}</h3>
+                    <p><strong>Pièce :</strong> ${piece}</p>
+                    <p class="modal-image-description">${description}</p>
+                </div>
+            `;
+            
+            modal.style.display = 'flex';
+        }
+
+        // Fermer la modal
+        function closeModal() {
+            document.getElementById('colorModal').style.display = 'none';
+        }
+
+        // Fermer la modal en cliquant à l'extérieur
+        document.getElementById('colorModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Fermer avec Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Initialiser la page
+        function init() {
+            const roomsContainer = document.getElementById('roomsContainer');
+            const rooms = groupByRoom();
+            
+            let html = '';
+            rooms.forEach((colors, roomName) => {
+                html += createRoomHTML(roomName, colors);
+            });
+            
+            roomsContainer.innerHTML = html;
+        }
+
+        // Démarrer l'application
+        init();
+    </script>
+</body>
+</html>
