@@ -1,11 +1,11 @@
-# 📥 Scripts de Téléchargement d'Images
+# 📥 Script de Téléchargement d'Images
 
-Ce projet contient plusieurs scripts Python pour télécharger et organiser toutes les images depuis le fichier `index.html`.
+Ce projet contient un script Python pour télécharger toutes les images depuis le fichier `index.html`.
 
-## 🚀 Scripts Disponibles
+## 🚀 Script Principal
 
-### 1. `telecharger_images.py` - Script Principal
-**Le script principal qui télécharge toutes les images depuis les URLs trouvées dans index.html**
+### `telecharger_images.py` - Téléchargement d'Images
+**Le script qui télécharge toutes les images depuis les URLs trouvées dans index.html**
 
 ```bash
 python3 telecharger_images.py
@@ -19,48 +19,13 @@ python3 telecharger_images.py
 - ✅ Évitement des doublons
 - ✅ Pause entre téléchargements pour éviter la surcharge serveur
 
-### 2. `organiser_images.py` - Organisation par Pièce
-**Script bonus pour organiser les images dans des sous-dossiers par pièce**
-
-```bash
-python3 organiser_images.py
-```
-
-**Fonctionnalités :**
-- 📁 Crée des sous-dossiers pour chaque pièce
-- 📁 Copie les images dans les dossiers appropriés
-- 📋 Affiche la structure créée
-
-### 3. `resume_telechargement.py` - Résumé et Statistiques
-**Génère un résumé complet avec statistiques**
-
-```bash
-python3 resume_telechargement.py
-```
-
-**Fonctionnalités :**
-- 📊 Statistiques complètes du téléchargement
-- 📋 Répartition par pièce
-- 🎯 Classification par type d'image
-- 💾 Informations sur l'espace disque utilisé
-
-## 📁 Structure des Dossiers Créés
+## 📁 Structure du Dossier Créé
 
 ```
 /home/user/webapp/
 ├── images_telechargees/          # Toutes les images téléchargées
 │   ├── *.jpg                     # Images avec noms explicites
 │   └── metadonnees_images.txt    # Fichier de métadonnées complet
-│
-├── images_organisees/            # Images organisées par pièce
-│   ├── Chambre_1/
-│   ├── Chambre_2/
-│   ├── Chambre_3/
-│   ├── WC/
-│   ├── Entrée_Couloir/
-│   ├── Escalier/
-│   ├── Salon/
-│   └── Cuisine/
 ```
 
 ## 🏷️ Convention de Nommage
@@ -124,29 +89,22 @@ Le fichier `metadonnees_images.txt` contient pour chaque image :
 ### Métadonnées Complètes
 - 🏷️ Conservation de toutes les informations d'origine
 - 🔗 Traçabilité URL → fichier local
-- 📊 Statistiques automatiques
 - 📁 Organisation intuitive
 
-## 🚀 Utilisation Rapide
+## 🚀 Utilisation
 
 ```bash
 # Télécharger toutes les images
 python3 telecharger_images.py
-
-# Organiser par pièce (optionnel)
-python3 organiser_images.py
-
-# Voir le résumé complet
-python3 resume_telechargement.py
 ```
 
 ## 📞 Support
 
-Les scripts gèrent automatiquement :
+Le script gère automatiquement :
 - Les caractères spéciaux dans les noms
 - Les URLs avec ou sans extension
 - La déduplication des fichiers
 - La création des dossiers nécessaires
 - La génération de rapports détaillés
 
-Tous les scripts sont documentés et incluent une gestion d'erreurs robuste pour un fonctionnement fiable.
+Le script est documenté et inclut une gestion d'erreurs robuste pour un fonctionnement fiable.
