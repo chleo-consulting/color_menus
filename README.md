@@ -10,6 +10,7 @@ Application web élégante pour visualiser les couleurs Farrow & Ball d'un proje
 - **Textes intégrés** directement dans chaque rectangle :
   - Nom de la couleur Farrow & Ball (grande typographie)
   - Localisation (murs, plafonds, étagères, etc.)
+  - **🆕 Numéro Farrow&Ball** (référence officielle)
   - Code hexadécimal avec fond semi-transparent
 
 ### 🎨 **Adaptation Automatique du Texte**
@@ -37,7 +38,7 @@ Application web élégante pour visualiser les couleurs Farrow & Ball d'un proje
 - **Cartes interactives** avec aperçu, titre et description
 - **Modal détaillée** pour visualiser les images en grand format
 - **Multi-images** : Plusieurs images possibles par pièce
-- **Actuellement** : 16 images (Chambres 1,2,3: 1 chacune, WC: 3, Entrée/Couloir: 2, Escalier: 3, Salon: 3, Cuisine: 2)
+- **Actuellement** : 17 images (Chambres 1,2,3: 1 chacune, WC: 3, Entrée/Couloir: 2, Escalier: 3, Salon: 4, Cuisine: 2)
 - **Sol unifié** : Tomettes dans 4 pièces pour cohérence
 - **Papier peint IVY Blue** : Salon + Escalier pour continuité verticale
 - **Système extensible** pour ajouter d'autres images facilement
@@ -50,7 +51,7 @@ Application web élégante pour visualiser les couleurs Farrow & Ball d'un proje
 - **Animations fluides** au survol pour tous les éléments
 - **Double modal** : couleurs ET images avec contenus adaptés
 
-## 🎯 Couleurs Traitées (23 couleurs) + 16 Images
+## 🎯 Couleurs Traitées (23 couleurs) + 17 Images
 
 ### Couleurs Principales
 - **All White** (#FBF8F4) - Plafonds de toutes les pièces
@@ -197,7 +198,7 @@ Application web élégante pour visualiser les couleurs Farrow & Ball d'un proje
 - **Architecture** : Structure escalier + aménagement actuel
 - **Projection** : Base pour visualiser Grove Green + papier peint IVY Blue
 
-### Salon - Images (3)
+### Salon - Images (4)
 
 #### Papier Peint
 - **Référence** : IVY Blue 699 Farrow&Ball
@@ -217,6 +218,12 @@ Application web élégante pour visualiser les couleurs Farrow & Ball d'un proje
 - **Architecture** : Charpente traditionnelle visible
 - **Authenticité** : Caractère provençal
 - **Harmonie** : Contraste chaleureux avec les couleurs murales
+
+#### Canapé
+- **Type** : Tissus et coussins décoratifs
+- **Couleurs** : Vert profond et beige naturel
+- **Style** : Lin froissé et textures naturelles
+- **Harmonie** : S'accorde parfaitement avec Grove Green et Drop Cloth
 
 ### Cuisine - Images (2)
 
@@ -289,4 +296,33 @@ Application web élégante pour visualiser les couleurs Farrow & Ball d'un proje
 
 ---
 
-*Projet de visualisation couleurs Farrow & Ball - Version avec fonds colorés, images intégrées et instructions d'usage*
+## 🆕 **Numéros de Référence Farrow&Ball**
+
+### Couleurs avec Références Officielles
+- **Lime White** → Farrow&Ball 1
+- **Picture Gallery Red** → Farrow&Ball 42
+- **Off-Black** → Farrow&Ball 57
+- **Radicchio** → Farrow&Ball 96
+- **Shaded White** → Farrow&Ball 201
+- **Skylight** → Farrow&Ball 205
+- **Stony Ground** → Farrow&Ball 211
+- **Wimborne White** → Farrow&Ball 239
+- **Skimming Stone** → Farrow&Ball 241
+- **Shadow White** → Farrow&Ball 282
+- **Drop Cloth** → Farrow&Ball 283
+- **School House White** → Farrow&Ball 291
+- **Grove Green** → Farrow&Ball G17
+- **All White** → Farrow&Ball 2005
+
+### Couleurs sans Référence
+- **Charleston Gray** (autre marque)
+
+### Avantages des Références
+1. **Commande facilitée** : Numéros officiels pour les fournisseurs
+2. **Garantie couleur** : Références exactes Farrow&Ball
+3. **Traçabilité** : Identification unique de chaque teinte
+4. **Communication claire** : Langage commun avec les professionnels
+
+---
+
+*Projet de visualisation couleurs Farrow & Ball - Version avec numéros de référence, fonds colorés et images intégrées*

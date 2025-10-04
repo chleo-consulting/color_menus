@@ -220,6 +220,17 @@
             position: relative;
         }
 
+        .color-fab-number {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+            opacity: 0.9;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            z-index: 2;
+            position: relative;
+            font-style: italic;
+        }
+
         .color-hex {
             font-size: 1rem;
             font-weight: 400;
@@ -366,6 +377,7 @@
 
         .light-text .color-name,
         .light-text .color-location,
+        .light-text .color-fab-number,
         .light-text .color-hex {
             color: #2c2c2c !important;
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
@@ -403,30 +415,31 @@
     </div>
 
     <script>
-        // Données des couleurs parsées du CSV avec colonne Usage
+        // Données des couleurs parsées du CSV avec colonne Usage et numéros Farrow&Ball
         const colorData = [
-            {piece: "Toutes pièces", partie: "Plafonds", couleur: "All White", hex: "#FBF8F4", usage: ""},
-            {piece: "Chambre 1", partie: "Murs", couleur: "Wimborne White", hex: "#F7F3E8", usage: ""},
-            {piece: "Chambre 1", partie: "Dressing", couleur: "Picture Gallery Red", hex: "#A15A4D", usage: ""},
-            {piece: "Salle de bain", partie: "Étagères", couleur: "Wimborne White", hex: "#F7F3E8", usage: ""},
-            {piece: "Chambre 2", partie: "Murs", couleur: "Skimming Stone", hex: "#DFD6CB", usage: ""},
-            {piece: "Chambre 2", partie: "Fond étagères", couleur: "Radicchio", hex: "#994A50", usage: ""},
-            {piece: "Chambre 2", partie: "placard", couleur: "Charleston Gray", hex: "#9F9389", usage: ""},
-            {piece: "Chambre 3", partie: "Murs", couleur: "Wimborne White", hex: "#F7F3E8", usage: ""},
-            {piece: "Chambre 3", partie: "Intérieur placard", couleur: "Lime White", hex: "#E8DEC9", usage: ""},
-            {piece: "WC", partie: "Murs", couleur: "Stony Ground", hex: "#CEC1AD", usage: ""},
-            {piece: "WC", partie: "placard", couleur: "Picture Gallery Red", hex: "#A15A4D", usage: ""},
-            {piece: "Cagibi", partie: "Murs", couleur: "Lime White", hex: "#E8DEC9", usage: ""},
-            {piece: "Entrée / Couloir", partie: "Murs", couleur: "Stony Ground", hex: "#CEC1AD", usage: "Pour tous les autres murs de l'entrée et du couloir."},
-            {piece: "Entrée / Couloir", partie: "Murs", couleur: "Grove Green", hex: "#4B5956", usage: "Il sera à appliquer sur le mur de la porte d'entrée ainsi que sur l'angle de l'escalier côté entrée et sur le mur adjacent de la porte d'entrée ."},
-            {piece: "Escalier", partie: "Murs", couleur: "Grove Green", hex: "#4B5956", usage: ""},
-            {piece: "Salon", partie: "Murs", couleur: "School House White", hex: "#E6DFD1", usage: "Pour tout le reste de la pièce : murs et sous pente, embrasement de fenêtres, et entre poutre."},
-            {piece: "Salon", partie: "bibliothèque / tablette muret", couleur: "Shaded White", hex: "#D9D2C1", usage: "Cette couleur sera à appliquer sur toute la bibliothèque télévision ainsi que sur toutes les tablettes des banquettes."},
-            {piece: "Salon", partie: "Mur bibliothèque", couleur: "Grove Green", hex: "#4B5956", usage: "Ce vert est à appliquer sur tou le grand mur des bibliothèques et bureau.ATTENTION elle sera aussi à appliquer sur les placards près des fenêtres ( la sous couche sera differente de celle des murs) nous avions vue que L'INCHYRA BLUE pouvait aussi convenir au projet. Lors de votre commande précisez bien la couleur sélectionnée."},
-            {piece: "Salon", partie: "Mur bibliothèque", couleur: "Shadow White", hex: "#DED8C6", usage: "Pour les 2 murs l'angle de la cuisine côté séjour, ainsi que pour la porte ."},
-            {piece: "Salon", partie: "bibliothèque", couleur: "Drop Cloth", hex: "#C9BEAB", usage: "Pour les 2 murs l'angle de la cuisine côté séjour, ainsi que pour la porte ."},
-            {piece: "Cuisine", partie: "Murs", couleur: "Skylight", hex: "#CCD0CD", usage: "Pour tous les murs et plafond de la pièce"},
-            {piece: "Cuisine", partie: "Cadre / Plan de travail", couleur: "Off-Black", hex: "#444546", usage: "pour l'embrasement de la fenêtre."}
+            {piece: "Toutes pièces", partie: "Plafonds", couleur: "All White", hex: "#FBF8F4", usage: "", FaB_number: "Farrow&Ball 2005"},
+            {piece: "Chambre 1", partie: "Murs", couleur: "Wimborne White", hex: "#F7F3E8", usage: "", FaB_number: "Farrow&Ball 239"},
+            {piece: "Chambre 1", partie: "Dressing", couleur: "Picture Gallery Red", hex: "#A15A4D", usage: "", FaB_number: "Farrow&Ball 42"},
+            {piece: "Salle de bain", partie: "Étagères", couleur: "Wimborne White", hex: "#F7F3E8", usage: "", FaB_number: "Farrow&Ball 239"},
+            {piece: "Chambre 2", partie: "Murs", couleur: "Skimming Stone", hex: "#DFD6CB", usage: "", FaB_number: "Farrow&Ball 241"},
+            {piece: "Chambre 2", partie: "Fond étagères", couleur: "Radicchio", hex: "#994A50", usage: "", FaB_number: "Farrow&Ball 96"},
+            {piece: "Chambre 2", partie: "placard", couleur: "Charleston Gray", hex: "#9F9389", usage: "", FaB_number: ""},
+            {piece: "Chambre 3", partie: "Murs", couleur: "Wimborne White", hex: "#F7F3E8", usage: "", FaB_number: "Farrow&Ball 239"},
+            {piece: "Chambre 3", partie: "Intérieur placard", couleur: "Lime White", hex: "#E8DEC9", usage: "", FaB_number: "Farrow&Ball 1"},
+            {piece: "WC", partie: "Murs", couleur: "Stony Ground", hex: "#CEC1AD", usage: "", FaB_number: "Farrow&Ball 211"},
+            {piece: "WC", partie: "placard", couleur: "Picture Gallery Red", hex: "#A15A4D", usage: "", FaB_number: "Farrow&Ball 42"},
+            {piece: "Cagibi", partie: "Murs", couleur: "Lime White", hex: "#E8DEC9", usage: "", FaB_number: "Farrow&Ball 1"},
+            {piece: "Entrée / Couloir", partie: "Murs", couleur: "Grove Green", hex: "#4B5956", usage: "Il sera à appliquer sur le mur de la porte d'entrée ainsi que sur l'angle de l'escalier côté entrée et sur le mur adjacent de la porte d'entrée .", FaB_number: "Farrow&Ball G17"},
+            {piece: "Entrée / Couloir", partie: "Murs", couleur: "Stony Ground", hex: "#CEC1AD", usage: "Pour tous les autres murs de l'entrée et du couloir.", FaB_number: "Farrow&Ball 211"},
+            {piece: "Escalier", partie: "Murs", couleur: "Grove Green", hex: "#4B5956", usage: "", FaB_number: "Farrow&Ball G17"},
+            {piece: "Salon", partie: "Murs", couleur: "School House White", hex: "#E6DFD1", usage: "Pour tout le reste de la pièce : murs et sous pente, embrasement de fenêtres, et entre poutre.", FaB_number: "Farrow&Ball 291"},
+            {piece: "Salon", partie: "Mur bibliothèque", couleur: "Grove Green", hex: "#4B5956", usage: "Ce vert est à appliquer sur tou le grand mur des bibliothèques et bureau.ATTENTION elle sera aussi à appliquer sur les placards près des fenêtres ( la sous couche sera differente de celle des murs) nous avions vue que L'INCHYRA BLUE pouvait aussi convenir au projet. Lors de votre commande précisez bien la couleur sélectionnée.", FaB_number: "Farrow&Ball G17"},
+            {piece: "Salon", partie: "bibliothèque", couleur: "Drop Cloth", hex: "#C9BEAB", usage: "Pour les 2 murs l'angle de la cuisine côté séjour, ainsi que pour la porte .", FaB_number: "Farrow&Ball 283"},
+            {piece: "Salon", partie: "bibliothèque / tablette muret", couleur: "Shaded White", hex: "#D9D2C1", usage: "Cette couleur sera à appliquer sur toute la bibliothèque télévision ainsi que sur toutes les tablettes des banquettes.", FaB_number: "Farrow&Ball 201"},
+            {piece: "Salon", partie: "Mur bibliothèque", couleur: "Shadow White", hex: "#DED8C6", usage: "Pour les 2 murs l'angle de la cuisine côté séjour, ainsi que pour la porte .", FaB_number: "Farrow&Ball 282"},
+            {piece: "Salon", partie: "Mur bibliothèque", couleur: "Inchyra Blue", hex: "#586768", usage: "Ce vert est à appliquer sur tou le grand mur des bibliothèques et bureau.ATTENTION elle sera aussi à appliquer sur les placards près des fenêtres ( la sous couche sera differente de celle des murs) nous avions vue que L'INCHYRA BLUE pouvait aussi convenir au projet. Lors de votre commande précisez bien la couleur sélectionnée.", FaB_number: "Farrow&Ball 289"},
+            {piece: "Cuisine", partie: "Murs", couleur: "Off-Black", hex: "#444546", usage: "pour l'embrasement de la fenêtre.", FaB_number: "Farrow&Ball 57"},
+            {piece: "Cuisine", partie: "Murs", couleur: "Skylight", hex: "#CCD0CD", usage: "Pour tous les murs et plafond de la pièce", FaB_number: "Farrow&Ball 205"}
         ];
 
         // Images pour certaines pièces
@@ -513,6 +526,16 @@
                     url: 'https://page.gensparksite.com/v1/base64_upload/50ad66da61434ed1962c689607eb7101',
                     title: 'Poutres Salon',
                     description: 'Poutres salon'
+                },
+                {
+                    url: 'https://page.gensparksite.com/v1/base64_upload/94b23a706bebef58cc5c4b52842c1ead',
+                    title: 'Textiles Salon',
+                    description: 'Tissus et coussins'
+                },
+                {
+                    url: 'https://cdn1.genspark.ai/user-upload-image/gpt_image_edited/0d59fb4d-1412-4333-ba2f-03d9f44ec996',
+                    title: 'Salon',
+                    description: 'Essai de couleur'
                 }
             ],
             'Cuisine': [
@@ -587,12 +610,18 @@
             let colorsHTML = '';
             colors.forEach(color => {
                 const textClass = getTextClass(color.hex);
+                let fabNumberHTML = '';
+                if (color.FaB_number && color.FaB_number.trim() !== '') {
+                    fabNumberHTML = `<div class="color-fab-number">${color.FaB_number}</div>`;
+                }
+                
                 colorsHTML += `
                     <div class="color-rect ${textClass}" 
                          style="background-color: ${color.hex}" 
-                         onclick="openColorModal('${color.couleur}', '${color.partie}', '${color.hex}', '${roomName}', '${color.usage || ''}')">
+                         onclick="openColorModal('${color.couleur}', '${color.partie}', '${color.hex}', '${roomName}', '${color.usage || ''}', '${color.FaB_number || ''}')">
                         <div class="color-name">${color.couleur}</div>
                         <div class="color-location">${color.partie}</div>
+                        ${fabNumberHTML}
                         <div class="color-hex">${color.hex}</div>
                     </div>
                 `;
@@ -629,17 +658,23 @@
         }
 
         // Ouvrir la modal pour les couleurs
-        function openColorModal(couleurName, partie, hex, piece, usage = '') {
+        function openColorModal(couleurName, partie, hex, piece, usage = '', fabNumber = '') {
             const modal = document.getElementById('colorModal');
             const modalPreview = document.getElementById('modalColorPreview');
             const modalDetails = document.getElementById('modalDetails');
             
             const textClass = getTextClass(hex);
             
+            let fabNumberPreviewHTML = '';
+            if (fabNumber && fabNumber.trim() !== '') {
+                fabNumberPreviewHTML = `<div class="color-fab-number" style="font-size: 1.1rem; margin-bottom: 0.5rem;">${fabNumber}</div>`;
+            }
+            
             modalPreview.style.backgroundColor = hex;
             modalPreview.className = `modal-color-preview ${textClass}`;
             modalPreview.innerHTML = `
                 <div class="color-name" style="font-size: 2rem; margin-bottom: 1rem;">${couleurName}</div>
+                ${fabNumberPreviewHTML}
                 <div class="color-hex" style="font-size: 1.2rem;">${hex}</div>
             `;
             
@@ -648,11 +683,17 @@
                 usageHTML = `<p><strong>Instructions d'usage :</strong> ${usage}</p>`;
             }
             
+            let fabNumberDetailsHTML = '';
+            if (fabNumber && fabNumber.trim() !== '') {
+                fabNumberDetailsHTML = `<p><strong>Référence :</strong> ${fabNumber}</p>`;
+            }
+            
             modalDetails.innerHTML = `
                 <h3>Détails de la couleur</h3>
                 <p><strong>Couleur :</strong> ${couleurName}</p>
                 <p><strong>Pièce :</strong> ${piece}</p>
                 <p><strong>Application :</strong> ${partie}</p>
+                ${fabNumberDetailsHTML}
                 <p><strong>Code hexadécimal :</strong> ${hex}</p>
                 ${usageHTML}
             `;
